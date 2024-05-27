@@ -2,7 +2,7 @@ version: '3.9'
 services:
   feelring-mysql:
     image: mysql:8.2.0
-    container_name: music-db
+    container_name: feelring-db
     restart: always
     ports:
       - 11000:3306
