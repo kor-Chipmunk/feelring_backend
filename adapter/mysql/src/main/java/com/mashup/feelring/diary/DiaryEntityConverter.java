@@ -9,7 +9,7 @@ public class DiaryEntityConverter {
     public static DiaryEntity toEntity(Diary diary) {
         return new DiaryEntity(
                 diary.getId(),
-                diary.getTitle(),
+                diary.getContent(),
                 diary.getUserId(),
                 diary.getCategory(),
                 diary.getHappiness(),
