@@ -3,7 +3,6 @@ package com.mashup.feelring.diary.model;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
 
 import com.mashup.feelring.user.model.UserId;
 import java.time.LocalDateTime;
