@@ -13,26 +13,36 @@ class DiaryTest {
 
     @Test
     void write() {
-        Diary writtenDiary = Diary.write(
-            "제목",
-            new UserId(1L),
-            Weather.SUNNY,
-            1,
-            () -> new DiaryId(1L)
-        );
+        LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
 
-        assertAll(
-                "writtenDiary",
-                () -> assertEquals("제목", writtenDiary.getTitle()),
-                () -> assertEquals(new DiaryId(1L), writtenDiary.getId()),
-                () -> assertEquals(Weather.SUNNY, writtenDiary.getWeather()),
-                () -> assertEquals(1, writtenDiary.getHappiness()),
-                () -> assertEquals(new UserId(1L), writtenDiary.getUserId())
-        );
+        try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+            mock.when(LocalDateTime::now).thenReturn(mockNow);
+
+            Diary writtenDiary = Diary.write(
+                    "제목",
+                    new UserId(1L),
+                    Weather.SUNNY,
+                    1,
+                    () -> new DiaryId(1L)
+            );
+
+            assertAll(
+                    "writtenDiary",
+                    () -> assertEquals("제목", writtenDiary.getTitle()),
+                    () -> assertEquals(new DiaryId(1L), writtenDiary.getId()),
+                    () -> assertEquals(Weather.SUNNY, writtenDiary.getWeather()),
+                    () -> assertEquals(1, writtenDiary.getHappiness()),
+                    () -> assertEquals(new UserId(1L), writtenDiary.getUserId()),
+                    () -> assertEquals(mockNow, writtenDiary.getCreatedAt()),
+                    () -> assertEquals(mockNow, writtenDiary.getUpdatedAt())
+            );
+        }
     }
 
     @Test
     void edit() {
+        LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
+
         Diary editedDiary = Diary.write(
                 "제목",
                 new UserId(1L),
@@ -41,18 +51,23 @@ class DiaryTest {
                 () -> new DiaryId(1L)
         );
 
-        editedDiary.edit(
-                "수정한 제목",
-                Weather.CLOUDY,
-                2
-        );
+        try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+            mock.when(LocalDateTime::now).thenReturn(mockNow);
 
-        assertAll(
-                "editedDiary",
-                () -> assertEquals("수정한 제목", editedDiary.getTitle()),
-                () -> assertEquals(Weather.CLOUDY, editedDiary.getWeather()),
-                () -> assertEquals(2, editedDiary.getHappiness())
-        );
+            editedDiary.edit(
+                    "수정한 제목",
+                    Weather.CLOUDY,
+                    2
+            );
+
+            assertAll(
+                    "editedDiary",
+                    () -> assertEquals("수정한 제목", editedDiary.getTitle()),
+                    () -> assertEquals(Weather.CLOUDY, editedDiary.getWeather()),
+                    () -> assertEquals(2, editedDiary.getHappiness()),
+                    () -> assertEquals(mockNow, editedDiary.getUpdatedAt())
+            );
+        }
     }
 
     @Test
@@ -74,7 +89,8 @@ class DiaryTest {
 
             assertAll(
                     "deletedDiary",
-                    () -> assertEquals(mockNow, deletedDiary.getDeletedAt())
+                    () -> assertEquals(mockNow, deletedDiary.getDeletedAt()),
+                    () -> assertEquals(mockNow, deletedDiary.getUpdatedAt())
             );
         }
     }
