@@ -5,13 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mockStatic;
 
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
+@DisplayName("유저를")
 class UserTest {
 
     @Test
-    void signUp() {
+    void 회원가입합니다() {
         LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
 
         try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
@@ -44,7 +46,7 @@ class UserTest {
     }
 
     @Test
-    void signIn() {
+    void 로그인합니다() {
         LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
 
         try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
@@ -73,7 +75,7 @@ class UserTest {
     }
 
     @Test
-    void signOut() {
+    void 로그아웃합니다() {
         LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
 
         try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
@@ -102,7 +104,7 @@ class UserTest {
     }
 
     @Test
-    void resign() {
+    void 탈퇴합니다() {
         LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
 
         try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
@@ -132,7 +134,7 @@ class UserTest {
     }
 
     @Test
-    void editProfile() {
+    void 프로필을_수정합니다() {
         LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
 
         try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
