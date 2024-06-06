@@ -1,6 +1,9 @@
 package com.mashup.feelring.diary;
 
 import com.mashup.feelring.diary.model.Diary;
+import com.mashup.feelring.diary.model.DiaryId;
+import com.mashup.feelring.diary.model.Weather;
+import com.mashup.feelring.user.model.UserId;
 
 public class DiaryEntityConverter {
 
@@ -8,10 +11,10 @@ public class DiaryEntityConverter {
 
     public static DiaryEntity toEntity(Diary diary) {
         return new DiaryEntity(
-                diary.getId(),
+                diary.getId().getValue(),
                 diary.getContent(),
-                diary.getUserId(),
-                diary.getCategory(),
+                diary.getUserId().getValue(),
+                diary.getWeather().name(),
                 diary.getHappiness(),
                 diary.getCreatedAt(),
                 diary.getUpdatedAt(),
@@ -21,10 +24,10 @@ public class DiaryEntityConverter {
 
     public static Diary toModel(DiaryEntity diaryEntity) {
         return new Diary(
-                diaryEntity.getId(),
+                new DiaryId(diaryEntity.getId()),
                 diaryEntity.getTitle(),
-                diaryEntity.getUserId(),
-                diaryEntity.getCategory(),
+                new UserId(diaryEntity.getUserId()),
+                Weather.from(diaryEntity.getCategory()),
                 diaryEntity.getHappiness(),
                 diaryEntity.getCreatedAt(),
                 diaryEntity.getUpdatedAt(),

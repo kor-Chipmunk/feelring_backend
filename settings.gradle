@@ -2,7 +2,7 @@ rootProject.name = 'feelring'
 
 include 'adapter'
 include 'adapter:mysql'
-include 'api'
+include 'web'
 include 'common'
 include 'core'
 include 'domain'

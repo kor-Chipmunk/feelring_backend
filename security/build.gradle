@@ -1,13 +1,15 @@
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web:3.2.5"
+    // Spring Security
     implementation "org.springframework.boot:spring-boot-starter-security:3.2.5"
     testImplementation 'org.springframework.security:spring-security-test:6.2.4'
 
+    // JWT Token
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 
-    implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
+    // OAuth2
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-client:3.2.5"
 
     implementation(project(":core"))
     implementation(project(":adapter:mysql"))

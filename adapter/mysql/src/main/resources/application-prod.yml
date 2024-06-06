@@ -15,7 +15,3 @@ spring:
       ddl-auto: validate
     properties:
       dialect: org.hibernate.dialect.MySQLDialect
-      hibernate:
-        format_sql: true
-        show_sql: true
-        use_sql_comments: true

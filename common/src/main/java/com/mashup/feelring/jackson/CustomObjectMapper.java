@@ -1,4 +1,4 @@
-package com.mashup.feelring;
+package com.mashup.feelring.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

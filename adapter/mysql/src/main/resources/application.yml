@@ -4,3 +4,8 @@ server:
 spring:
   profiles:
     active: local
+
+  hibernate:
+    naming:
+      implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

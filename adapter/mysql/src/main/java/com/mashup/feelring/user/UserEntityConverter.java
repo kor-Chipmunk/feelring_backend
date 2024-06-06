@@ -1,6 +1,10 @@
 package com.mashup.feelring.user;
 
+import com.mashup.feelring.user.model.Account;
+import com.mashup.feelring.user.model.Profile;
+import com.mashup.feelring.user.model.Role;
 import com.mashup.feelring.user.model.User;
+import com.mashup.feelring.user.model.UserId;
 
 public class UserEntityConverter {
 
@@ -8,11 +12,14 @@ public class UserEntityConverter {
 
     public static UserEntity toEntity(User user) {
         return new UserEntity(
-                user.getId(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getRole(),
-                user.getNickname(),
+                user.getId().getValue(),
+                user.getAccount().getEmail(),
+                user.getAccount().getPassword(),
+                user.getRole().name(),
+                user.getProfile().getNickname(),
+                user.getProfile().getImage(),
+                user.getLastLoginAt(),
+                user.getLastLogoutAt(),
                 user.getCreatedAt(),
                 user.getUpdatedAt(),
                 user.getDeletedAt()
@@ -21,11 +28,18 @@ public class UserEntityConverter {
 
     public static User toModel(UserEntity userEntity) {
         return new User(
-                userEntity.getId(),
-                userEntity.getEmail(),
-                userEntity.getPassword(),
-                userEntity.getRole(),
-                userEntity.getNickname(),
+                new UserId(userEntity.getId()),
+                new Account(
+                    userEntity.getEmail(),
+                    userEntity.getPassword()
+                ),
+                Role.from(userEntity.getRole()),
+                new Profile(
+                        userEntity.getNickname(),
+                        userEntity.getImage()
+                ),
+                userEntity.getLastLoginAt(),
+                userEntity.getLastLogoutAt(),
                 userEntity.getCreatedAt(),
                 userEntity.getUpdatedAt(),
                 userEntity.getDeletedAt()
