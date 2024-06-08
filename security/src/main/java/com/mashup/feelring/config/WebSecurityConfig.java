@@ -21,8 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private static final String[] WHITE_LIST = {
-            "/user/signup",
-            "/user/login"
+            "/api/v1/users",
+            "/api/v1/auth/**"
     };
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -49,7 +49,6 @@ public class WebSecurityConfig {
                 auth.requestMatchers(HttpMethod.POST, WHITE_LIST).permitAll()
                     .requestMatchers(PathRequest.toH2Console()).permitAll()
                     .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/v1/users/**").permitAll()
                     .anyRequest().authenticated()
         );
 
