@@ -1,6 +1,8 @@
 package com.mashup.feelring.controller;
 
 import com.mashup.feelring.AuthLoginUsecase;
+import com.mashup.feelring.AuthLoginUsecase.LoginResponse;
+import com.mashup.feelring.model.auth.AuthDto;
 import com.mashup.feelring.model.auth.AuthRequest;
 import com.mashup.feelring.model.user.UserDto;
 import com.mashup.feelring.user.model.User;
@@ -19,16 +21,22 @@ public class AuthController {
     private final AuthLoginUsecase authLoginUsecase;
 
     @PostMapping("/login")
-    ResponseEntity<UserDto> login(
+    ResponseEntity<AuthDto> login(
             @RequestBody AuthRequest request
     ) {
-        User loginUser = authLoginUsecase.login(
+        AuthLoginUsecase.LoginResponse loginResponse = authLoginUsecase.login(
                 new AuthLoginUsecase.Request(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
-        return ResponseEntity.ok(UserDto.from(loginUser));
+        return ResponseEntity.ok(
+                AuthDto.from(
+                    loginResponse.getUser(),
+                    loginResponse.getAccessToken(),
+                    loginResponse.getRefreshToken()
+                )
+        );
     }
 
 }
