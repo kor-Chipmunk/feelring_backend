@@ -1,19 +1,21 @@
 package com.mashup.feelring.user.model;
 
+import com.mashup.feelring.user.model.exception.UserValidationException;
 import com.mashup.feelring.user.model.repository.UserRepository;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 @AllArgsConstructor
 @Getter
 public class User {
 
-    private UserId id;
-    private Account account;
-    private Role role;
-    private Profile profile;
-    private Provider provider;
+    @NonNull private UserId id;
+    @NonNull private Account account;
+    @NonNull private Role role;
+    @NonNull private Profile profile;
+    @NonNull private Provider provider;
 
     private LocalDateTime lastLoginAt;
     private LocalDateTime lastLogoutAt;
@@ -41,6 +43,18 @@ public class User {
                 LocalDateTime.now(),
                 null
         );
+    }
+
+    private static void validateUserAccount(User user) {
+        if (user.getAccount().getEmail().isBlank() || user.getAccount().getPassword().isBlank()) {
+            throw new UserValidationException("이메일과 패스워드는 필수 입력값입니다.");
+        }
+    }
+
+    private static void validateUserProfile(User user) {
+        if (user.getProfile().getNickname().isBlank()) {
+            throw new UserValidationException("닉네임은 필수 입력값입니다.");
+        }
     }
 
     public void signIn() {

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mockStatic;
 
+import com.mashup.feelring.diary.exception.DiaryValidationException;
 import com.mashup.feelring.user.model.UserId;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -48,11 +49,11 @@ class DiaryTest {
             }
         }
 
-        @DisplayName("내용은 최대 길이를 넘으면 예외(IllegalArgumentException)를 일으킵니다")
+        @DisplayName("내용은 최대 길이를 넘으면 예외(DiaryValidationException)를 일으킵니다")
         @Test
         void shouldRaiseExceptionWhenLengthIsOverMax() {
             DiaryId diaryId = new DiaryId(0L, UUID.randomUUID());
-            assertThrows(IllegalArgumentException.class, () -> {
+            assertThrows(DiaryValidationException.class, () -> {
                 Diary.write(
                         diaryId,
                         "가".repeat(Diary.MAX_CONTENT_LENGTH + 1),
@@ -100,7 +101,7 @@ class DiaryTest {
             }
         }
 
-        @DisplayName("내용은 최대 길이를 넘으면 예외(IllegalArgumentException)를 일으킵니다")
+        @DisplayName("내용은 최대 길이를 넘으면 예외(DiaryValidationException)를 일으킵니다")
         @Test
         void shouldRaiseExceptionWhenLengthIsOverMax() {
             LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
@@ -114,7 +115,7 @@ class DiaryTest {
                     1
             );
 
-            assertThrows(IllegalArgumentException.class, () -> {
+            assertThrows(DiaryValidationException.class, () -> {
                 editedDiary.edit(
                         "가".repeat(Diary.MAX_CONTENT_LENGTH + 1),
                         Weather.SUNNY,
