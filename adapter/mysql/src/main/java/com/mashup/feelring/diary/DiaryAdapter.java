@@ -4,7 +4,6 @@ import com.mashup.feelring.diary.model.Diary;
 import com.mashup.feelring.exception.BusinessException;
 import com.mashup.feelring.exception.ErrorCode;
 import com.mashup.port.DiaryPort;
-import java.awt.print.Pageable;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

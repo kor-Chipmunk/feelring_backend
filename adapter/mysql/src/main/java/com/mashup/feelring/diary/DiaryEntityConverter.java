@@ -18,6 +18,7 @@ public class DiaryEntityConverter {
                 diary.getUserId().getValue(),
                 diary.getWeather().name(),
                 diary.getHappiness(),
+                diary.getAlarmUrl(),
                 diary.getCreatedAt(),
                 diary.getUpdatedAt(),
                 diary.getDeletedAt()
@@ -31,6 +32,7 @@ public class DiaryEntityConverter {
                 new UserId(diaryEntity.getUserId()),
                 Weather.from(diaryEntity.getCategory()),
                 diaryEntity.getHappiness(),
+                diaryEntity.getAlarmUrl(),
                 diaryEntity.getCreatedAt(),
                 diaryEntity.getUpdatedAt(),
                 diaryEntity.getDeletedAt()

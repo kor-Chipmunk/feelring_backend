@@ -17,6 +17,7 @@ public class DiaryEntity {
     private Long userId;
     private String category;
     private Integer happiness;
+    private String alarmUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
