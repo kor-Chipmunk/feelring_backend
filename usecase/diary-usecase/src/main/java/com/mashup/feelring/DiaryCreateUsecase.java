@@ -8,7 +8,10 @@ public interface DiaryCreateUsecase {
 
     @Data
     class Request {
+        private final String uid;
         private final Long userId;
-        private final String title;
+        private final String content;
+        private final String weather;
+        private final Integer happiness;
     }
 }

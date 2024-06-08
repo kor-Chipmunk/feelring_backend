@@ -8,7 +8,11 @@ public interface UserCreateUsecase {
 
     @Data
     class Request {
-        private final Long userId;
-        private final String title;
+        private final String email;
+        private final String password;
+        private final String nickname;
+        private final String image;
+        private final String providerType;
+        private final String providerId;
     }
 }

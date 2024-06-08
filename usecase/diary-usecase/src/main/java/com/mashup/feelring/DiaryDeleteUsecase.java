@@ -8,6 +8,6 @@ public interface DiaryDeleteUsecase {
 
     @Data
     class Request {
-        private final Long id;
+        private final String uid;
     }
 }

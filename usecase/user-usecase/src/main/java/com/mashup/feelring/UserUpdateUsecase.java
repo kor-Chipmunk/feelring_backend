@@ -9,6 +9,7 @@ public interface UserUpdateUsecase {
     @Data
     class Request {
         private final Long userId;
-        private final String title;
+        private final String nickname;
+        private final String image;
     }
 }
