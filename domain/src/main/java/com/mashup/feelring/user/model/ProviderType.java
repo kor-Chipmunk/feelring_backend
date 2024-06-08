@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 public enum ProviderType {
     UNKNOWN,
+    DEFAULT,
     GOOGLE,
     APPLE,
     KAKAO,

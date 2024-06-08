@@ -21,6 +21,8 @@ public class Diary {
     @NonNull private Weather weather;
     @NonNull private Integer happiness;
 
+    private String alarmUrl;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
@@ -40,6 +42,7 @@ public class Diary {
                 userId,
                 weather,
                 happiness,
+                null,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 null
@@ -68,6 +71,11 @@ public class Diary {
 
     public void delete() {
         this.deletedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void registerAlarm(String alarmUrl) {
+        this.alarmUrl = alarmUrl;
         this.updatedAt = LocalDateTime.now();
     }
 
