@@ -12,7 +12,8 @@ public class DiaryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
+    private String uid;
+    private String content;
     private Long userId;
     private String category;
     private Integer happiness;

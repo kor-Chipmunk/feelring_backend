@@ -4,6 +4,7 @@ import com.mashup.feelring.diary.model.Diary;
 import com.mashup.feelring.diary.model.DiaryId;
 import com.mashup.feelring.diary.model.Weather;
 import com.mashup.feelring.user.model.UserId;
+import java.util.UUID;
 
 public class DiaryEntityConverter {
 
@@ -12,6 +13,7 @@ public class DiaryEntityConverter {
     public static DiaryEntity toEntity(Diary diary) {
         return new DiaryEntity(
                 diary.getId().getValue(),
+                diary.getId().getUid().toString(),
                 diary.getContent(),
                 diary.getUserId().getValue(),
                 diary.getWeather().name(),
@@ -24,8 +26,8 @@ public class DiaryEntityConverter {
 
     public static Diary toModel(DiaryEntity diaryEntity) {
         return new Diary(
-                new DiaryId(diaryEntity.getId()),
-                diaryEntity.getTitle(),
+                new DiaryId(diaryEntity.getId(), UUID.fromString(diaryEntity.getUid())),
+                diaryEntity.getContent(),
                 new UserId(diaryEntity.getUserId()),
                 Weather.from(diaryEntity.getCategory()),
                 diaryEntity.getHappiness(),

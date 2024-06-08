@@ -1,5 +1,6 @@
 package com.mashup.feelring.user;
 
+import com.mashup.feelring.user.model.ProviderType;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.*;
@@ -20,6 +21,10 @@ public class UserEntity {
 
     private String nickname;
     private String image;
+
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerName;
+    private String providerId;
 
     private LocalDateTime lastLoginAt;
     private LocalDateTime lastLogoutAt;
