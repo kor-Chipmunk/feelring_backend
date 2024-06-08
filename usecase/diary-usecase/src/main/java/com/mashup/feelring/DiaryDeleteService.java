@@ -13,6 +13,8 @@ public class DiaryDeleteService implements DiaryDeleteUsecase {
 
     @Override
     public Diary delete(Request request) {
-        return null;
+        Diary deletedDiary = diaryPort.findByUid(request.getUid());
+        deletedDiary = diaryPort.delete(deletedDiary);
+        return deletedDiary;
     }
 }
