@@ -27,10 +27,11 @@ public class DiaryController {
 
     @GetMapping
     ResponseEntity<List<DiaryDto>> read(
-            @RequestParam("page") Long page,
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
+            @RequestParam(name = "size", defaultValue = "10") Integer size,
             @AuthUser User user
     ) {
-        List<Diary> diaries = diaryReadUsecase.read(page);
+        List<Diary> diaries = diaryReadUsecase.read(user, page, size);
         return ResponseEntity.ok(
                 diaries.stream()
                         .map(diary -> DiaryDto.from(diary, user))
