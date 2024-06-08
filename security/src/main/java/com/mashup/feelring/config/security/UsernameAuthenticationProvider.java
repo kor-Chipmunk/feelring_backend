@@ -2,7 +2,7 @@ package com.mashup.feelring.config.security;
 
 import com.mashup.feelring.exception.BusinessException;
 import com.mashup.feelring.exception.ErrorCode;
-import com.mashup.feelring.user.UserEntity;
+import com.mashup.feelring.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +30,7 @@ public class UsernameAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
 
         PrincipalDetails principal = (PrincipalDetails) detailsService.loadUserByUsername(userId);
-        UserEntity user = principal.getUser();
+        User user = principal.getUser();
 
         if (!passwordEncoder.matches(password, principal.getPassword())) {
             throw BusinessException.from(ErrorCode.LOGIN_FAILED);

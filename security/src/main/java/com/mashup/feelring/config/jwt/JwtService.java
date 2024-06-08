@@ -6,30 +6,34 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.ZIP;
 import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Date;
 import javax.crypto.SecretKey;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class JwtService {
 
-    @Value("${spring.application.name}")
+    @Value("${jwt.application.name:FeelRingSecurity}")
     private String issuer;
 
-    @Value("${jwt.access-token.expiration}")
+    @Value("${jwt.access-token.expiration:3600}")
     private Long accessTokenExpirationSeconds;
 
     private final SecretKey secretKey;
 
     public JwtService(
-            @Value("${jwt.access-token.secret-key}")
+            @Value("${jwt.access-token.secret-key:secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey}")
             String secretKey
     ) {
-        final byte[] secretKeyBytes = Decoders.BASE64.decode(secretKey);
-        this.secretKey = Keys.hmacShaKeyFor(secretKeyBytes);
+        secretKey = Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
+        this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateAccessToken(Long id, String userId, Date baseDate) {

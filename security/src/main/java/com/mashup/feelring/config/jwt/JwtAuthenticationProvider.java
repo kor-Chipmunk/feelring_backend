@@ -4,7 +4,7 @@ import com.mashup.feelring.config.security.PrincipalDetails;
 import com.mashup.feelring.config.security.UserDetailsToken;
 import com.mashup.feelring.exception.BusinessException;
 import com.mashup.feelring.exception.ErrorCode;
-import com.mashup.feelring.user.UserEntity;
+import com.mashup.feelring.user.model.User;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -34,9 +34,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         final long id = jwtPayload.get("id", Long.class);
 
         PrincipalDetails principal = (PrincipalDetails) detailsService.loadUserByUsername(userId);
-        UserEntity user = principal.getUser();
+        User user = principal.getUser();
 
-        if (user.getId() != id) {
+        if (user.getId().getValue() != id) {
             throw BusinessException.from(ErrorCode.USER_NOT_FOUND);
         }
 

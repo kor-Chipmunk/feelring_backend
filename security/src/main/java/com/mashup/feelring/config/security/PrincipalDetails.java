@@ -1,6 +1,6 @@
 package com.mashup.feelring.config.security;
 
-import com.mashup.feelring.user.UserEntity;
+import com.mashup.feelring.user.model.User;
 import java.util.Collection;
 import java.util.List;
 import lombok.Getter;
@@ -12,19 +12,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 public class PrincipalDetails implements UserDetails {
 
-    private final UserEntity user;
+    private final User user;
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getAccount().getEmail();
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.getAccount().getPassword();
     }
 
-    public UserEntity getUser() {
+    public User getUser() {
         return user;
     }
 

@@ -1,9 +1,8 @@
 package com.mashup.feelring.config.security;
 
-import com.mashup.feelring.exception.BusinessException;
-import com.mashup.feelring.exception.ErrorCode;
-import com.mashup.feelring.user.UserEntity;
-import com.mashup.feelring.user.UserJpaRepository;
+import com.mashup.feelring.UserReadUsecase;
+import com.mashup.feelring.user.model.User;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,13 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class PrincipalDetailsService implements UserDetailsService {
 
-    private final UserJpaRepository userRepository;
+    private final UserReadUsecase userReadUsecase;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByEmail(username)
-                .orElseThrow(() -> BusinessException.from(ErrorCode.USER_NOT_FOUND));
-
+        User user = userReadUsecase.read(username);
         return new PrincipalDetails(user);
     }
 }

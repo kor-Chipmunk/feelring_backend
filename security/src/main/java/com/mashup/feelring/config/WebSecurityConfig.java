@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -50,6 +48,8 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth ->
                 auth.requestMatchers(HttpMethod.POST, WHITE_LIST).permitAll()
                     .requestMatchers(PathRequest.toH2Console()).permitAll()
+                    .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/users/**").permitAll()
                     .anyRequest().authenticated()
         );
 
@@ -58,13 +58,8 @@ public class WebSecurityConfig {
                 UsernamePasswordAuthenticationFilter.class
         );
 
-        http.oauth2Login(config -> config.defaultSuccessUrl("/loginSuccess"));
+        // http.oauth2Login(Customizer.withDefaults());
 
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
-        return usernameAuthenticationProvider::authenticate;
     }
 }
