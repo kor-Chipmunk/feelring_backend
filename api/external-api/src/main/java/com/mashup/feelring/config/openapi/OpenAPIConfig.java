@@ -1,9 +1,11 @@
 package com.mashup.feelring.config.openapi;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +51,16 @@ public class OpenAPIConfig {
                 .description("FeelRing 외부 API OpenAPI 문서입니다.")
                 .license(mitLicense);
 
-        return new OpenAPI().info(info).servers(List.of(localServer, devServer, prodServer));
+        return new OpenAPI()
+                .servers(List.of(localServer, devServer, prodServer))
+                .components(new Components().addSecuritySchemes
+                        ("Bearer Authentication", createAPIKeyScheme()))
+                .info(info);
+    }
+
+    private SecurityScheme createAPIKeyScheme() {
+        return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                .bearerFormat("JWT")
+                .scheme("bearer");
     }
 }
