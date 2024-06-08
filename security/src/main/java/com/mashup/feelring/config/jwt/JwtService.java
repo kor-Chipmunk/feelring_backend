@@ -5,7 +5,6 @@ import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.ZIP;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +25,9 @@ public class JwtService {
     @Value("${jwt.access-token.expiration:3600}")
     private Long accessTokenExpirationSeconds;
 
+    @Value("${jwt.refresh-token.expiration:2592000}")
+    private Long refreshTokenExpirationSeconds;
+
     private final SecretKey secretKey;
 
     public JwtService(
@@ -36,7 +38,7 @@ public class JwtService {
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(Long id, String userId, Date baseDate) {
+    public String generateAccessToken(Long id, String email, Date baseDate) {
         final long expirationMillis = baseDate.getTime() + Duration.ofSeconds(accessTokenExpirationSeconds).toMillis();
         final Date expiration = new Date(expirationMillis);
 
@@ -46,8 +48,23 @@ public class JwtService {
                 .and()
                 .issuer(issuer)
                 .expiration(expiration)
-                .subject(userId)
+                .subject(email)
                 .claim("id", id)
+                .compressWith(ZIP.GZIP)
+                .signWith(secretKey)
+                .compact();
+    }
+
+    public String generateRefreshToken(Date baseDate) {
+        final long expirationMillis = baseDate.getTime() + Duration.ofSeconds(refreshTokenExpirationSeconds).toMillis();
+        final Date expiration = new Date(expirationMillis);
+
+        return Jwts.builder()
+                .header()
+                .type(Header.JWT_TYPE)
+                .and()
+                .issuer(issuer)
+                .expiration(expiration)
                 .compressWith(ZIP.GZIP)
                 .signWith(secretKey)
                 .compact();

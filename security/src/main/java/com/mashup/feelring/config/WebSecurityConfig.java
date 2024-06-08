@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private static final String[] WHITE_LIST = {
-            "/api/v1/users",
+            "/api/v1/users/**",
             "/api/v1/auth/**"
     };
 
@@ -47,7 +47,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(auth ->
                 auth.requestMatchers(HttpMethod.POST, WHITE_LIST).permitAll()
-                    .requestMatchers(PathRequest.toH2Console()).permitAll()
+                    .requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
                     .anyRequest().authenticated()
         );
