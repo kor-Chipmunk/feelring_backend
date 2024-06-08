@@ -1,5 +1,6 @@
 package com.mashup.feelring.user.model;
 
+import com.mashup.feelring.user.model.repository.UserRepository;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,7 @@ public class User {
     private Account account;
     private Role role;
     private Profile profile;
+    private Provider provider;
 
     private LocalDateTime lastLoginAt;
     private LocalDateTime lastLogoutAt;
@@ -24,6 +26,7 @@ public class User {
             Account account,
             Role role,
             Profile profile,
+            Provider provider,
             UserRepository repository
     ) {
         return new User(
@@ -31,6 +34,7 @@ public class User {
                 account,
                 role,
                 profile,
+                provider,
                 null,
                 null,
                 LocalDateTime.now(),

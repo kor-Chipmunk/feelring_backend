@@ -2,7 +2,6 @@ package com.mashup.feelring.diary.model;
 
 import com.mashup.feelring.user.model.UserId;
 import java.time.LocalDateTime;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -25,16 +24,16 @@ public class Diary {
     private LocalDateTime deletedAt;
 
     public static Diary write(
+            DiaryId id,
             String content,
             UserId userId,
             Weather weather,
-            Integer happiness,
-            DiaryRepository diaryRepository
+            Integer happiness
     ) {
         validateContentSize(content);
 
         return new Diary(
-                diaryRepository.nextId(),
+                id,
                 content,
                 userId,
                 weather,

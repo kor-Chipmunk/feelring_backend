@@ -7,107 +7,151 @@ import static org.mockito.Mockito.mockStatic;
 
 import com.mashup.feelring.user.model.UserId;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-@DisplayName("일기를")
 class DiaryTest {
 
-    @Test
-    void 작성합니다() {
-        LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
+    @DisplayName("작성")
+    @Nested
+    class WriteUsecase {
+        @DisplayName("일기를 작성합니다.")
+        @Test
+        void shouldWrite() {
+            LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
 
-        try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
-            mock.when(LocalDateTime::now).thenReturn(mockNow);
+            try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+                mock.when(LocalDateTime::now).thenReturn(mockNow);
 
-            Diary writtenDiary = Diary.write(
+                DiaryId diaryId = new DiaryId(0L, UUID.randomUUID());
+                Diary writtenDiary = Diary.write(
+                        diaryId,
+                        "내용",
+                        new UserId(1L),
+                        Weather.SUNNY,
+                        1
+                );
+
+                assertAll(
+                        "writtenDiary",
+                        () -> assertEquals("내용", writtenDiary.getContent()),
+                        () -> assertEquals(diaryId, writtenDiary.getId()),
+                        () -> assertEquals(Weather.SUNNY, writtenDiary.getWeather()),
+                        () -> assertEquals(1, writtenDiary.getHappiness()),
+                        () -> assertEquals(new UserId(1L), writtenDiary.getUserId()),
+                        () -> assertEquals(mockNow, writtenDiary.getCreatedAt()),
+                        () -> assertEquals(mockNow, writtenDiary.getUpdatedAt())
+                );
+            }
+        }
+
+        @DisplayName("내용은 최대 길이를 넘으면 예외(IllegalArgumentException)를 일으킵니다")
+        @Test
+        void shouldRaiseExceptionWhenLengthIsOverMax() {
+            DiaryId diaryId = new DiaryId(0L, UUID.randomUUID());
+            assertThrows(IllegalArgumentException.class, () -> {
+                Diary.write(
+                        diaryId,
+                        "가".repeat(Diary.MAX_CONTENT_LENGTH + 1),
+                        new UserId(1L),
+                        Weather.SUNNY,
+                        1
+                );
+            });
+        }
+    }
+
+    @DisplayName("수정")
+    @Nested
+    class EditUsecase {
+        @DisplayName("일기를 수정합니다.")
+        @Test
+        void shouldEdit() {
+            LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
+
+            DiaryId diaryId = new DiaryId(0L, UUID.randomUUID());
+            Diary editedDiary = Diary.write(
+                    diaryId,
                     "내용",
                     new UserId(1L),
                     Weather.SUNNY,
-                    1,
-                    () -> new DiaryId(1L)
+                    1
             );
 
-            assertAll(
-                    "writtenDiary",
-                    () -> assertEquals("내용", writtenDiary.getContent()),
-                    () -> assertEquals(new DiaryId(1L), writtenDiary.getId()),
-                    () -> assertEquals(Weather.SUNNY, writtenDiary.getWeather()),
-                    () -> assertEquals(1, writtenDiary.getHappiness()),
-                    () -> assertEquals(new UserId(1L), writtenDiary.getUserId()),
-                    () -> assertEquals(mockNow, writtenDiary.getCreatedAt()),
-                    () -> assertEquals(mockNow, writtenDiary.getUpdatedAt())
-            );
+            try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+                mock.when(LocalDateTime::now).thenReturn(mockNow);
+
+                editedDiary.edit(
+                        "수정한 내용",
+                        Weather.CLOUDY,
+                        2
+                );
+
+                assertAll(
+                        "editedDiary",
+                        () -> assertEquals("수정한 내용", editedDiary.getContent()),
+                        () -> assertEquals(Weather.CLOUDY, editedDiary.getWeather()),
+                        () -> assertEquals(2, editedDiary.getHappiness()),
+                        () -> assertEquals(mockNow, editedDiary.getUpdatedAt())
+                );
+            }
         }
-    }
 
-    @Test
-    void 내용은_최대_길이를_넘으면_예외를_일으킵니다() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Diary.write(
-                    "가".repeat(Diary.MAX_CONTENT_LENGTH + 1),
+        @DisplayName("내용은 최대 길이를 넘으면 예외(IllegalArgumentException)를 일으킵니다")
+        @Test
+        void shouldRaiseExceptionWhenLengthIsOverMax() {
+            LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
+
+            DiaryId diaryId = new DiaryId(0L, UUID.randomUUID());
+            Diary editedDiary = Diary.write(
+                    diaryId,
+                    "내용",
                     new UserId(1L),
                     Weather.SUNNY,
-                    1,
-                    () -> new DiaryId(1L)
-            );
-        });
-    }
-
-    @Test
-    void 수정합니다() {
-        LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
-
-        Diary editedDiary = Diary.write(
-                "내용",
-                new UserId(1L),
-                Weather.SUNNY,
-                1,
-                () -> new DiaryId(1L)
-        );
-
-        try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
-            mock.when(LocalDateTime::now).thenReturn(mockNow);
-
-            editedDiary.edit(
-                    "수정한 내용",
-                    Weather.CLOUDY,
-                    2
+                    1
             );
 
-            assertAll(
-                    "editedDiary",
-                    () -> assertEquals("수정한 내용", editedDiary.getContent()),
-                    () -> assertEquals(Weather.CLOUDY, editedDiary.getWeather()),
-                    () -> assertEquals(2, editedDiary.getHappiness()),
-                    () -> assertEquals(mockNow, editedDiary.getUpdatedAt())
-            );
+            assertThrows(IllegalArgumentException.class, () -> {
+                editedDiary.edit(
+                        "가".repeat(Diary.MAX_CONTENT_LENGTH + 1),
+                        Weather.SUNNY,
+                        1
+                );
+            });
         }
     }
 
-    @Test
-    void 삭제합니다() {
-        LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
+    @DisplayName("삭제")
+    @Nested
+    class DeleteUsecase {
+        @DisplayName("일기를 삭제합니다.")
+        @Test
+        void shouldDelete() {
+            LocalDateTime mockNow = LocalDateTime.of(2024,5,27,0,0,0);
 
-        Diary deletedDiary = Diary.write(
-                "내용",
-                new UserId(1L),
-                Weather.SUNNY,
-                1,
-                () -> new DiaryId(1L)
-        );
-
-        try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
-            mock.when(LocalDateTime::now).thenReturn(mockNow);
-
-            deletedDiary.delete();
-
-            assertAll(
-                    "deletedDiary",
-                    () -> assertEquals(mockNow, deletedDiary.getDeletedAt()),
-                    () -> assertEquals(mockNow, deletedDiary.getUpdatedAt())
+            DiaryId diaryId = new DiaryId(0L, UUID.randomUUID());
+            Diary deletedDiary = Diary.write(
+                    diaryId,
+                    "내용",
+                    new UserId(1L),
+                    Weather.SUNNY,
+                    1
             );
+
+            try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+                mock.when(LocalDateTime::now).thenReturn(mockNow);
+
+                deletedDiary.delete();
+
+                assertAll(
+                        "deletedDiary",
+                        () -> assertEquals(mockNow, deletedDiary.getDeletedAt()),
+                        () -> assertEquals(mockNow, deletedDiary.getUpdatedAt())
+                );
+            }
         }
     }
 

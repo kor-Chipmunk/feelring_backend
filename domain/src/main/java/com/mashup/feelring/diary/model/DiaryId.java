@@ -1,5 +1,6 @@
 package com.mashup.feelring.diary.model;
 
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,5 +9,6 @@ import lombok.Data;
 public class DiaryId {
 
     private Long value;
+    private UUID uid;
 
 }
