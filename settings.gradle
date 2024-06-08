@@ -2,13 +2,22 @@ rootProject.name = 'feelring'
 
 include 'adapter'
 include 'adapter:mysql'
-include 'web'
+
+include 'api'
+include 'api:external-api'
+findProject(':api:external-api')?.name = 'external-api'
+
 include 'common'
 include 'core'
+
 include 'domain'
+
 include 'security'
+
 include 'usecase'
 include 'usecase:core'
+include 'usecase:auth-usecase'
+findProject(':usecase:auth-usecase')?.name = 'auth-usecase'
 include 'usecase:user-usecase'
 findProject(':usecase:user-usecase')?.name = 'user-usecase'
 include 'usecase:diary-usecase'
