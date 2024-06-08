@@ -1,0 +1,12 @@
+server:
+  port: 10000
+  undertow:
+    accesslog:
+      enabled: true
+      dir: ./logs
+      pattern: common
+
+openapi:
+  local-url: http://localhost:10000
+  dev-url: http://localhost:10000
+  prod-url: http://localhost:10000

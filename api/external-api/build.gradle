@@ -1,0 +1,15 @@
+dependencies {
+    // Web MVC with UnderTow
+    implementation('org.springframework.boot:spring-boot-starter-web:3.2.5') {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    implementation('org.springframework.boot:spring-boot-starter-undertow:3.2.5')
+
+    // OpenAPI
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+    implementation(project(":security"))
+    implementation(project(":domain"))
+    implementation(project(":usecase:user-usecase"))
+    implementation(project(":usecase:diary-usecase"))
+}
