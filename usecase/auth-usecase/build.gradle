@@ -3,4 +3,5 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":usecase:core"))
+    implementation(project(":security"))
 }
