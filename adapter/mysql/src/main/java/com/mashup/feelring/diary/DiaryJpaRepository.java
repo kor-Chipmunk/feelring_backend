@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DiaryJpaRepository extends JpaRepository<DiaryEntity, Long> {
     Optional<DiaryEntity> findByUid(String uid);
-    Page<DiaryEntity> findByUserId(Long userId, Pageable pageable);
+    Page<DiaryEntity> findByUserIdOrderByIdDesc(Long userId, Pageable pageable);
 }

@@ -28,7 +28,7 @@ public class DiaryAdapter implements DiaryPort {
     @Transactional(readOnly = true)
     public List<Diary> findAll(Long userId, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<DiaryEntity> diaryEntities = diaryJpaRepository.findByUserId(userId, pageRequest);
+        Page<DiaryEntity> diaryEntities = diaryJpaRepository.findByUserIdOrderByIdDesc(userId, pageRequest);
         return diaryEntities.getContent().stream()
                 .map(DiaryEntityConverter::toModel)
                 .toList();
