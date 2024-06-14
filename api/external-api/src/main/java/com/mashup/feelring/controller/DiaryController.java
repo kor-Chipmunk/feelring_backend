@@ -1,22 +1,24 @@
 package com.mashup.feelring.controller;
 
+import com.mashup.feelring.AuthUser;
 import com.mashup.feelring.DiaryCreateUsecase;
 import com.mashup.feelring.DiaryDeleteUsecase;
 import com.mashup.feelring.DiaryReadUsecase;
 import com.mashup.feelring.DiaryRegisterAlarmUsecase;
 import com.mashup.feelring.DiaryUpdateUsecase;
-import com.mashup.feelring.config.AuthUser;
 import com.mashup.feelring.diary.model.Diary;
 import com.mashup.feelring.model.diary.DiaryCreateRequest;
 import com.mashup.feelring.model.diary.DiaryDto;
 import com.mashup.feelring.model.diary.DiaryRegisterAlarmRequest;
 import com.mashup.feelring.model.diary.DiaryUpdateRequest;
 import com.mashup.feelring.user.model.User;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@SecurityRequirement(name = "Bearer Authentication")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/diaries")

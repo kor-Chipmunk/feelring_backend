@@ -21,13 +21,15 @@ public class DiaryCreateService implements DiaryCreateUsecase {
     @Override
     public Diary create(Request request) {
         try {
-            return Diary.write(
+            Diary writtenDiary = Diary.write(
                     new DiaryId(0L, UUID.fromString(request.getUid())),
                     request.getContent(),
                     new UserId(request.getUserId()),
                     Weather.from(request.getWeather()),
                     request.getHappiness()
             );
+
+            return diaryPort.save(writtenDiary);
         } catch (DiaryValidationException exception) {
             throw BusinessException.from(ErrorCode.DIARY_FAILED);
         }

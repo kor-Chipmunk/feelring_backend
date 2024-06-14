@@ -1,18 +1,19 @@
 package com.mashup.feelring.controller;
 
+import com.mashup.feelring.AuthUser;
 import com.mashup.feelring.UserCreateUsecase;
 import com.mashup.feelring.UserDeleteUsecase;
-import com.mashup.feelring.UserReadUsecase;
 import com.mashup.feelring.UserUpdateUsecase;
-import com.mashup.feelring.config.AuthUser;
 import com.mashup.feelring.model.user.*;
 
 import com.mashup.feelring.user.model.User;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@SecurityRequirement(name = "Bearer Authentication")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/users")

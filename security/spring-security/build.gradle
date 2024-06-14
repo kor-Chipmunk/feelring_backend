@@ -1,0 +1,15 @@
+dependencies {
+    // Spring web
+    implementation('org.springframework.boot:spring-boot-starter-web:3.2.5') {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    implementation('org.springframework.boot:spring-boot-starter-undertow:3.2.5')
+
+    // Spring Security
+    implementation "org.springframework.boot:spring-boot-starter-security:3.2.5"
+    testImplementation 'org.springframework.security:spring-security-test:6.2.4'
+
+    implementation(project(":security:jwt-security"))
+    implementation(project(":adapter:mysql"))
+    implementation(project(":usecase:user-usecase"))
+}

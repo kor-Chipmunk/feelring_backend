@@ -1,7 +1,12 @@
 rootProject.name = 'feelring'
 
 include 'adapter'
+include 'adapter:core'
+findProject(':adapter:core')?.name = 'core'
 include 'adapter:mysql'
+findProject(':adapter:mysql')?.name = 'mysql'
+include 'adapter:oauth2'
+findProject(':adapter:oauth2')?.name = 'oauth2'
 
 include 'api'
 include 'api:external-api'
@@ -13,6 +18,12 @@ include 'core'
 include 'domain'
 
 include 'security'
+include 'security:aes-security'
+findProject(':security:aes-security')?.name = 'aes-security'
+include 'security:jwt-security'
+findProject(':security:jwt-security')?.name = 'jwt-security'
+include 'security:spring-security'
+findProject(':security:spring-security')?.name = 'spring-security'
 
 include 'usecase'
 include 'usecase:core'

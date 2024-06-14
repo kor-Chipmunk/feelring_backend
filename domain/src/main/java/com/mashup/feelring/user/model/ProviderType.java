@@ -11,6 +11,8 @@ public enum ProviderType {
     GOOGLE,
     APPLE,
     KAKAO,
+    TWITTER,
+    TIKTOK,
     ;
 
     private static final Map<String, ProviderType> maps = Arrays.stream(ProviderType.values())

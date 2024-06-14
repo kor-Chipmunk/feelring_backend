@@ -1,6 +1,6 @@
 package com.mashup.feelring;
 
-import com.mashup.feelring.config.jwt.JwtService;
+import com.mashup.feelring.jwt.JwtService;
 import com.mashup.feelring.exception.BusinessException;
 import com.mashup.feelring.exception.ErrorCode;
 import com.mashup.feelring.user.model.User;

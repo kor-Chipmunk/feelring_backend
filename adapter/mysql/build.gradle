@@ -11,4 +11,6 @@ dependencies {
     runtimeOnly 'com.h2database:h2:2.2.224'
 
     implementation(project(":core"))
+    implementation(project(":adapter:core"))
+    implementation(project(":security:aes-security"))
 }
