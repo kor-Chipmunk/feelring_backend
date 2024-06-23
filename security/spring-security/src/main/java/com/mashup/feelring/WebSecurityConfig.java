@@ -1,8 +1,8 @@
 package com.mashup.feelring;
 
 import com.mashup.feelring.jwt.JwtAuthenticationFilter;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +14,9 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +28,7 @@ public class WebSecurityConfig {
     };
     private static final String[] GET_WHITE_LIST = {
             "/", "/h2-console", "/h2-console/**", "/favicon.ico", // default
-            "/v3/**", "/swagger-ui/**", // swagger
+            "/v3/**", "/swagger-ui/**", "/swagger-resources/**", // swagger
             "/login/oauth2/**" // oauth2
     };
 
@@ -41,7 +44,7 @@ public class WebSecurityConfig {
 
         http.headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin));
 
-        http.cors(Customizer.withDefaults());
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         http.sessionManagement(config ->
                 config.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -52,7 +55,6 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth ->
                 auth.requestMatchers(HttpMethod.POST, POST_WHITE_LIST).permitAll()
                     .requestMatchers(GET_WHITE_LIST).permitAll()
-                    .requestMatchers(PathRequest.toH2Console()).permitAll()
                     .anyRequest().authenticated()
         );
 
@@ -62,5 +64,15 @@ public class WebSecurityConfig {
         );
 
         return http.build();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://43.203.91.150:10000/", "http://localhost:10000", "http://api.betterday.one", "https://api.betterday.one"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

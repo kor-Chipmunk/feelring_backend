@@ -1,2 +1,6 @@
+jar {
+    archiveBaseName = 'usecase-core'
+}
+
 dependencies {
 }

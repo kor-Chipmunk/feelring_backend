@@ -1,2 +1,6 @@
+jar {
+    archiveBaseName = 'adapter-core'
+}
+
 dependencies {
 }

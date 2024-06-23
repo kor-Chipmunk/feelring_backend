@@ -12,6 +12,14 @@ subprojects {
 	apply plugin: 'idea'
 	sourceCompatibility = JavaVersion.VERSION_17
 
+	bootJar {
+		enabled = false
+	}
+
+	jar {
+		enabled = true
+	}
+
 	configurations {
 		compileOnly {
 			extendsFrom annotationProcessor
