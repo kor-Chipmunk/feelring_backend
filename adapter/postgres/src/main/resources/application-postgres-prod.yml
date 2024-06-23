@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://betterday-rds.cl2c46qeefdl.ap-northeast-2.rds.amazonaws.com:5432/betterday?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul"
+#    url: "jdbc:postgresql://localhost:54323/betterday?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul"
+    username: ycBRtf5LaH21Hna
+    password: ZpTU3OJY7N9Qvj8
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+      default_schema: public
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
